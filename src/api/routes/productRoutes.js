@@ -7,11 +7,13 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controllers/productController");
+const authenticate = require("../middlewares/authenticate");
 
-router.get("/", listProducts);
-router.post("/", createProduct);
-router.get("/:id", getProduct);
-router.put("/:id", updateProduct);
-router.delete("/:id", deleteProduct);
+// Applying the authentication middleware to product routes
+router.get("/", authenticate, listProducts);
+router.post("/", authenticate, createProduct);
+router.get("/:id", authenticate, getProduct);
+router.put("/:id", authenticate, updateProduct);
+router.delete("/:id", authenticate, deleteProduct);
 
 module.exports = router;

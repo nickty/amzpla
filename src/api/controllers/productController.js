@@ -1,25 +1,28 @@
 const Product = require("../models/Product");
 
+// Get all products
 exports.listProducts = async (req, res, next) => {
   try {
     const products = await Product.find();
     res.json(products);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+// Create a new product
 exports.createProduct = async (req, res, next) => {
   try {
     const { name, price, description } = req.body;
     const product = new Product({ name, price, description });
     await product.save();
     res.status(201).json(product);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+// Get a product by ID
 exports.getProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
@@ -28,11 +31,12 @@ exports.getProduct = async (req, res, next) => {
       return res.status(404).json({ message: "Product not found" });
     }
     res.json(product);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+// Update a product
 exports.updateProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
@@ -46,11 +50,12 @@ exports.updateProduct = async (req, res, next) => {
       return res.status(404).json({ message: "Product not found" });
     }
     res.json(updatedProduct);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+// Delete a product
 exports.deleteProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
@@ -59,7 +64,7 @@ exports.deleteProduct = async (req, res, next) => {
       return res.status(404).json({ message: "Product not found" });
     }
     res.json({ message: "Product deleted successfully" });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
