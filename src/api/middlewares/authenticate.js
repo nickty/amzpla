@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const authenticate = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1]; // Assuming the token is sent as "Bearer <token>"
-
+  console.log("is there any request");
   if (!token) {
     return res
       .status(403)

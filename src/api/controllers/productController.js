@@ -2,6 +2,7 @@ const Product = require("../models/Product");
 
 // Get all products
 exports.listProducts = async (req, res, next) => {
+  console.log("request comming");
   try {
     const products = await Product.find();
     res.json(products);
