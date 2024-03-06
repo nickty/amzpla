@@ -47,6 +47,12 @@ exports.listProducts = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
   try {
     const { name, price, description } = req.body;
+
+    // Check if price is empty
+    if (!price) {
+      return res.status(400).json({ message: "Price is required" });
+    }
+
     const product = new Product({ name, price, description });
     await product.save();
     res.status(201).json(product);
