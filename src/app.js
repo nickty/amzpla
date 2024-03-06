@@ -11,10 +11,9 @@ const app = express();
 require("./config/db");
 
 // Middleware
-app.use(cors());
+app.use(cors({ exposedHeaders: ["X-Total-Count", "Content-Range"] }));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
-
 // app.use("/", (req, res) => {
 //   res.send("Hello user");
 // });
