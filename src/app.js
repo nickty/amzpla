@@ -20,7 +20,7 @@ app.use(morgan('dev'))
 // Routes
 app.use('/api/auth', require('./api/routes/authRoutes'))
 app.use('/api/products', require('./api/routes/productRoutes'))
-app.use('/api/users', require('./api/routes/authRoutes'))
+app.use('/api/users', require('./api/routes/userRoutes'))
 
 // Error Handling Middleware
 // app.use(require("./api/middlewares/errorHandler"));
