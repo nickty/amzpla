@@ -34,3 +34,63 @@ exports.getUserList = async (req, res, next) => {
     next(error)
   }
 }
+
+// Update user details
+exports.updateUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const updateData = req.body // This contains the updated user data
+
+    // Find the user by ID and update it
+    // { new: true } option returns the updated document
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
+      new: true,
+    })
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    // Ensure the response contains an 'id' key
+    const responseUser = updatedUser.toObject() // Convert to plain object if needed
+    responseUser.id = responseUser._id // Ensure there's an 'id' field
+
+    res.status(200).json(responseUser)
+  } catch (error) {
+    next(error) // Pass any errors to the error handling middleware
+  }
+}
+
+// Get single user by ID
+exports.getUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    // Find the user by ID
+    const user = await User.findById(id)
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    res.status(200).json(user)
+  } catch (error) {
+    next(error) // Pass any errors to the error handling middleware
+  }
+}
+
+// Delete single user by ID
+exports.deleteUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    // Find the user by ID and delete it
+    const user = await User.findByIdAndDelete(id)
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    res.status(200).json({ message: 'User deleted successfully' })
+  } catch (error) {
+    next(error) // Pass any errors to the error handling middleware
+  }
+}
