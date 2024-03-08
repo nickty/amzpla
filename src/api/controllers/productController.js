@@ -33,6 +33,7 @@ exports.listProducts = async (req, res, next) => {
       .sort(sortOptions)
       .skip(skip)
       .limit(limit)
+
     // Ensure to send back total count for pagination
     const total = await Product.countDocuments(filters)
     res.header('X-Total-Count', total)
@@ -52,7 +53,10 @@ exports.createProduct = async (req, res, next) => {
       return res.status(400).json({ message: 'Price is required' })
     }
 
-    const product = new Product({ name, price, description })
+    // Retrieve user information from the request object
+    const userId = req.user.userId // Assuming you have user information stored in the request object after authentication
+
+    const product = new Product({ name, price, description, user: userId })
     await product.save()
     res.status(201).json(product)
   } catch (error) {
