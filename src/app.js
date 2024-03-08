@@ -17,6 +17,7 @@ app.use(morgan('dev'))
 // app.use("/", (req, res) => {
 //   res.send("Hello user");
 // });
+
 // Routes
 app.use('/api/auth', require('./api/routes/authRoutes'))
 app.use('/api/products', require('./api/routes/productRoutes'))
