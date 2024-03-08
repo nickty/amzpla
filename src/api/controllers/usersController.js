@@ -94,3 +94,16 @@ exports.deleteUserById = async (req, res, next) => {
     next(error) // Pass any errors to the error handling middleware
   }
 }
+
+//get count of total user
+exports.getUserCount = async (req, res) => {
+  try {
+    const count = await User.countDocuments({})
+    res.json({ count })
+  } catch (error) {
+    console.error('Failed to get product count:', error) // Log to console for debugging
+    res
+      .status(500)
+      .json({ message: 'Failed to get product count', error: error.message })
+  }
+}

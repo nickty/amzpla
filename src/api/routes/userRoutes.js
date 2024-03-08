@@ -6,8 +6,10 @@ const {
   getUserById,
   deleteUserById,
   updateUserById,
+  getUserCount,
 } = require('../controllers/usersController')
 
+router.get('/countTotalUser', getUserCount)
 router.get('/', getUserList)
 router.get('/:id', getUserById)
 router.put('/:id', updateUserById)

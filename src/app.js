@@ -22,6 +22,8 @@ app.use('/api/auth', require('./api/routes/authRoutes'))
 app.use('/api/products', require('./api/routes/productRoutes'))
 app.use('/api/users', require('./api/routes/userRoutes'))
 
+console.log('love for Allah')
+
 // Error Handling Middleware
 // app.use(require("./api/middlewares/errorHandler"));
 

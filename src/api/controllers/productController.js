@@ -54,7 +54,7 @@ exports.createProduct = async (req, res, next) => {
     }
 
     // Retrieve user information from the request object
-    const userId = req.user.userId // Assuming you have user information stored in the request object after authentication
+    const userId = req.user.userId
 
     const product = new Product({ name, price, description, user: userId })
     await product.save()
@@ -108,6 +108,19 @@ exports.deleteProduct = async (req, res, next) => {
     res.json({ message: 'Product deleted successfully' })
   } catch (error) {
     next(error)
+  }
+}
+
+//get count of total product
+exports.getProductCount = async (req, res) => {
+  try {
+    const count = await Product.countDocuments()
+    res.json({ count })
+  } catch (error) {
+    console.error('Failed to get product count:', error) // Log to console for debugging
+    res
+      .status(500)
+      .json({ message: 'Failed to get product count', error: error.message })
   }
 }
 
