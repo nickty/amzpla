@@ -8,14 +8,19 @@ exports.listProducts = async (req, res, next) => {
       req.query
 
     let filters = {}
+    // Check if the user role is not admin, then filter products by the user's ID
+    if (req.user.role !== 'admin') {
+      filters.user = req.user.userId // Assuming the product schema has a 'user' field that stores the user ID
+    }
+
     if (name) {
-      filters.name = { $regex: name, $options: 'i' }
+      filters.name = { $regex: name, $options: 'i' } // Case-insensitive regex search for name
     }
     if (price_gte) {
-      filters.price = { ...filters.price, $gte: parseFloat(price_gte) }
+      filters.price = { ...filters.price, $gte: parseFloat(price_gte) } // Price greater than or equal to
     }
     if (price_lte) {
-      filters.price = { ...filters.price, $lte: parseFloat(price_lte) }
+      filters.price = { ...filters.price, $lte: parseFloat(price_lte) } // Price less than or equal to
     }
 
     // Sorting
