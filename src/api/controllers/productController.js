@@ -1,4 +1,5 @@
 const Product = require('../models/Product')
+const User = require('../models/User')
 
 // Get all products
 exports.listProducts = async (req, res, next) => {
@@ -114,7 +115,26 @@ exports.deleteProduct = async (req, res, next) => {
 //get count of total product
 exports.getProductCount = async (req, res) => {
   try {
-    const count = await Product.countDocuments()
+    let query = {} // Initialize an empty query object
+
+    // Fetch the user's details from the database to get the latest role
+    const user = await User.findById(req.user.userId).exec() // Assuming the user ID is stored in req.user.id
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    // Check the user's role
+    if (user.role === 'admin') {
+      // If the user is an admin, no need to filter products
+      var count = await Product.countDocuments()
+    } else {
+      // If the user is not an admin, filter products by the user's ID
+      query.user = req.user.userId // Use the user ID from the authentication object
+      var count = await Product.countDocuments(query)
+    }
+
+    console.log('check count', count)
     res.json({ count })
   } catch (error) {
     console.error('Failed to get product count:', error) // Log to console for debugging

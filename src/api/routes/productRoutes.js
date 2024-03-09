@@ -11,7 +11,7 @@ const {
 const authenticate = require('../middlewares/authenticate')
 
 // Applying the authentication middleware to product routes
-router.get('/countTotalProduct', getProductCount)
+router.get('/countTotalProduct', authenticate, getProductCount)
 router.get('/', listProducts)
 router.post('/', authenticate, createProduct)
 router.get('/:id', authenticate, getProduct)
