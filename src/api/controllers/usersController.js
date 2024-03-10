@@ -40,7 +40,6 @@ exports.updateUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const updateData = req.body; // This contains the updated user data
-
     // Find the user by ID and update it
     // { new: true } option returns the updated document
     const updatedUser = await User.findByIdAndUpdate(id, updateData, {
