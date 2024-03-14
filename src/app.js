@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 const { createPaymentIntent } = require("./api/controllers/paymentController");
+const { analyzeSEO } = require("./api/services/analyzeSEO");
 
 const app = express();
 
@@ -29,6 +30,19 @@ app.use("/api/payment", require("./api/routes/paymentRoutes"));
 
 // Error Handling Middleware
 // app.use(require("./api/middlewares/errorHandler"));
+
+// Route for SEO analysis
+app.post("/api/seo-check", async (req, res) => {
+  try {
+    const url = req.body.url;
+    console.log("check url", url);
+    const result = await analyzeSEO(url);
+    res.json(result);
+  } catch (error) {
+    console.error("Error analyzing SEO:", error);
+    res.status(500).send("Error analyzing SEO");
+  }
+});
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
