@@ -1,7 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+const { analyzeAccessibility } = require("./analyzeAccessibility");
 
-// Function to analyze SEO of a given URL
 const analyzeSEO = async (url) => {
   try {
     // Fetch HTML content of the URL
@@ -22,12 +22,34 @@ const analyzeSEO = async (url) => {
     };
     const images = $("img").length; // Get number of images
 
-    // Example analysis result
-    const analysisResult = {
+    // Extract SEO details
+    const seoDetails = {
       title,
       metaDescription,
       headings,
       images,
+      // Add more SEO-related details as needed
+    };
+
+    // Perform HTML semantic analysis
+    const semanticTags = $("html")
+      .find("*")
+      .toArray()
+      .reduce((acc, elem) => {
+        acc[elem.name] = (acc[elem.name] || 0) + 1;
+        return acc;
+      }, {});
+
+    // Perform accessibility analysis
+    // Add your accessibility checks here
+    const accessibilityDetails = analyzeAccessibility($);
+
+    // Combine all analysis results
+    const analysisResult = {
+      seoDetails,
+      semanticTags,
+      accessibilityDetails,
+      // Add accessibility analysis results here
     };
 
     return analysisResult;
